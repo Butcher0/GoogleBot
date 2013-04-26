@@ -31,8 +31,14 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
     def getUptime(self, msg):
         upTime = time.time() - startTime
-        msg.reply('Boten har oppetid ' + str('%.2f' % upTime) + ' sekunder').send()
-
+        if(upTime<60):
+            msg.reply('Boten har oppetid ' + str('%.2f' % upTime) + ' sekunder').send()
+        elif(upTime/60 < 60):
+            upTime = upTime/60
+            msg.reply('Boten har oppetid ' + str('%.2f' % upTime) + ' minutter').send()
+        else:
+            upTime = upTime/60/60
+            msg.reply('Boten har oppetid ' + str('%.2f' % upTime) + ' timer').send()
 
     def start(self,event):
         self.send_presence()
