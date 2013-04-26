@@ -8,7 +8,10 @@ Usages:
   - .. 
 
 Start options:
-  -h --help; shows help dialog 
-  -d --debug; set logging level to DEBUG
-  -j JID, --jid=JID; JID(username) to use
-  -p PASSWORD, --password=PASSWORD; password to use
+  - -h --help; shows help dialog
+  
+  - -d --debug; set logging level to DEBUG
+  
+  - -j JID, --jid=JID; JID(username) to use
+  
+  - -p PASSWORD, --password=PASSWORD; password to use
