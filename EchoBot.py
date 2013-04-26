@@ -5,31 +5,58 @@ Created on 25. apr. 2013
 '''
 
 
-import sys
-import logging
-import getpass
+
 from optparse import OptionParser
 
+import getpass
+import logging
+import re
 import sleekxmpp
+import win32api
+import wmi
+#import psutil
+import time
 
-
+startTime = time.time()
 
 class EchoBot(sleekxmpp.ClientXMPP):
     
+    
+
     def __init__(self,jid,password):
         sleekxmpp.ClientXMPP.__init__(self,jid,password)
         self.add_event_handler('session_start',self.start)
         self.add_event_handler('message',self.message)
 
 
+    def getUptime(self, msg):
+        upTime = time.time() - startTime
+        msg.reply('Boten har oppetid ' + str('%.2f' % upTime) + ' sekunder').send()
+
+
     def start(self,event):
         self.send_presence()
         self.get_roster()
     
+    def respNo(self,msg):
+        msg.reply("NEI!").send()
+    
+    def respGreeting(self,msg):
+        msg.reply("Heisan").send()
     
     def message(self, msg):
-        if msg['type'] in ('normal', 'chat'):
-            msg.reply("Takka for at du sendte meg info: \n%(body)s" % msg).send()
+
+        if msg['type'] in ('normal', 'chat') and re.match('(.*)\?', msg['body'], 0):
+            print(msg['from'])
+            self.respNo(msg)
+#            msg.reply("Takka for at du sendte meg info: \n%(body)s" % msg).send()
+#                msg.reply("jau god kvelden" % msg).send()
+        if msg['type'] in ('normal', 'chat') and msg['body'] in ('hallo','god dag'):
+            self.respGreeting(msg)
+
+        if msg['type'] in ('normal', 'chat') and msg['body'] in ('uptime'):
+            self.getUptime(msg)
+        
             
 
 if __name__ == '__main__':
