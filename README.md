@@ -15,3 +15,6 @@ Start options:
   - -j JID, --jid=JID; JID(username) to use
   
   - -p PASSWORD, --password=PASSWORD; password to use
+
+Requires:
+  - SleekXMPP for Python 3.1
