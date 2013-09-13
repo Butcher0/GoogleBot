@@ -18,11 +18,14 @@ import urllib.request
 import json
 from pprint import pprint
 from urllib.parse import urlencode
+from random import randrange
 
 startTime = time.time()
 
+
 class AreBot(sleekxmpp.ClientXMPP):
     
+    listAnswers = ["It is certain","It is decidedly so","Without a doubt","Yes definitely","You may rely on it","As I see it yes","Most likely","Outlook good","Yes","Signs point to yes","Reply hazy try again","Ask again later","Better not tell you now","Cannot predict now","Concentrate and ask again","Don't count on it","My reply is no","My sources say no","Outlook not so good","Very doubtful"]
 
     def __init__(self,jid,password):
         sleekxmpp.ClientXMPP.__init__(self,jid,password)
@@ -60,8 +63,8 @@ class AreBot(sleekxmpp.ClientXMPP):
         self.get_roster()
     
     def respNo(self,msg):
-        msg.reply("NEI!").send()
-        
+        svar = randrange(20)
+        msg.reply(self.listAnswers[svar]).send()
     
     def respGreeting(self,msg):
         msg.reply("Heisan").send()
@@ -103,7 +106,6 @@ class AreBot(sleekxmpp.ClientXMPP):
         if msg['type'] in ('normal', 'chat') and msg['body'] in ('uptime'):
             self.getUptime(msg)
 
-#       fix such that cities with two words (New York) works as supposed (new%20york) 
         if msg['type'] in ('normal', 'chat') and re.match('(var)\_', msg['body'], 0): #and msg['body'] in ('ver'):
             city = msg['body'][4:]
             print(city)
